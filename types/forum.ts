@@ -3,7 +3,8 @@ type Forum = {
   categoryId: string;
   title: string;
   description?: string;
-  // topics?:
+  subForums?: string[];
+  topics?: string[];
 };
 
 export default Forum;

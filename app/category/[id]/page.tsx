@@ -1,24 +1,61 @@
-"use client";
-
-import { useContext } from "react";
+import { Metadata } from "next";
 
 import Container from "@/components/Container";
 import PageTitle from "@/components/PageTitle";
-import { CategoryContext } from "@/store/category-context";
 import CategoryList from "@/components/CategoryList";
+import { prisma } from "@/lib/prisma";
+import getCategory from "@/lib/getCategory";
 
-const Category = ({ params }: { params: { id: string } }) => {
+type Props = {
+  params: { id: string };
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  // read route params
+  const id = params.id;
+
+  // fetch data
+  const forumData: Promise<{ title: string }> = getCategory(id);
+  const forum = await forumData;
+
+  return {
+    title: forum.title,
+  };
+}
+
+export const dynamic = "force-dynamic";
+
+const Category = async ({ params }: { params: { id: string } }) => {
   const { id } = params;
-  const { categories } = useContext(CategoryContext);
-  const category = categories.find((category) => id === category.id);
+  const data = await prisma.category.findFirst({
+    where: {
+      id: parseInt(id),
+    },
+    include: {
+      forums: {
+        include: {
+          _count: {
+            select: {
+              topics: true,
+            },
+          },
+        },
+      },
+    },
+  });
 
   return (
     <Container>
       <div className="mb-5">
-        <PageTitle title={category!.title} />
+        <PageTitle title={data?.title} />
       </div>
-
-      <CategoryList categoryId={id} title="Forums" expandable={false} />
+      <CategoryList
+        id={id}
+        title="Forums"
+        forums={data?.forums}
+        expandable={false}
+        titleAsLink={false}
+      />
     </Container>
   );
 };

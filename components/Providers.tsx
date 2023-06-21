@@ -1,17 +1,24 @@
 "use client";
 
 import { ThemeProvider } from "next-themes";
+import { SessionProvider } from "next-auth/react";
+import { Session } from "next-auth";
 
-import CategoriesProvider from "@/store/category-context";
-import ForumsProvider from "@/store/forums-context";
+import LayoutProvider from "./Layout";
 
-const Providers = ({ children }: { children: React.ReactNode }) => {
+const Providers = ({
+  children,
+  session,
+}: {
+  children: React.ReactNode;
+  session: Session | null;
+}) => {
   return (
-    <ThemeProvider attribute="class">
-      <CategoriesProvider>
-        <ForumsProvider>{children}</ForumsProvider>
-      </CategoriesProvider>
-    </ThemeProvider>
+    <SessionProvider session={session}>
+      <ThemeProvider attribute="class">
+        <LayoutProvider>{children}</LayoutProvider>
+      </ThemeProvider>
+    </SessionProvider>
   );
 };
 

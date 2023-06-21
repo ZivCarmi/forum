@@ -1,3 +1,164 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 47.4% 11.2%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 210 40% 98%;
+
+    --ring: 215 20.2% 65.1%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 224 71% 4%;
+    --foreground: 213 31% 91%;
+
+    --muted: 223 47% 11%;
+    --muted-foreground: 215.4 16.3% 56.9%;
+
+    --popover: 224 71% 4%;
+    --popover-foreground: 215 20.2% 65.1%;
+
+    --card: 224 71% 4%;
+    --card-foreground: 213 31% 91%;
+
+    --border: 216 34% 17%;
+    --input: 216 34% 37%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 1.2%;
+
+    --secondary: 222.2 47.4% 11.2%;
+    --secondary-foreground: 210 40% 98%;
+
+    --accent: 216 34% 17%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+
+    --ring: 216 34% 37%;
+
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-neutral-200 dark:bg-neutral-900 text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  .flat {
+    @apply bg-white dark:bg-neutral-950 rounded shadow-md;
+  }
+
+  .wysiwyg-wrapper {
+    @apply rounded-md border border-input px-3 py-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .wysiwyg-toolbar.toolbar {
+    @apply bg-transparent border-none p-0 mb-0 gap-2;
+  }
+
+  .wysiwyg-toolbar.toolbar > * {
+    @apply mb-0 gap-2;
+  }
+
+  .wysiwyg-toolbar .rdw-option-wrapper {
+    background: transparent;
+    @apply bg-transparent border-none m-0 px-2 py-4 w-8 h-8;
+  }
+
+  .wysiwyg-toolbar .rdw-option-wrapper:hover,
+  .wysiwyg-toolbar .rdw-dropdown-wrapper:hover,
+  .wysiwyg-toolbar .rdw-option-active {
+    box-shadow: unset;
+  }
+
+  .wysiwyg-toolbar .rdw-option-wrapper:not(.rdw-option-active):hover,
+  .wysiwyg-toolbar .rdw-dropdown-wrapper:hover {
+    @apply dark:bg-neutral-800;
+  }
+
+  .wysiwyg-toolbar .rdw-option-active {
+    @apply dark:bg-neutral-500;
+  }
+
+  .wysiwyg-toolbar .rdw-dropdown-wrapper {
+    @apply m-0 w-auto border-none bg-transparent relative;
+  }
+
+  .wysiwyg-toolbar .rdw-dropdown-carettoopen,
+  .wysiwyg-toolbar .rdw-dropdown-carettoclose {
+    @apply hidden;
+  }
+
+  .wysiwyg-toolbar .rdw-dropdown-optionwrapper {
+    @apply absolute w-auto overflow-auto;
+  }
+
+  .wysiwyg-toolbar .rdw-dropdown-selectedtext {
+    @apply dark:text-neutral-400 justify-center;
+  }
+
+  .wysiwyg-toolbar .rdw-dropdownoption-default {
+    @apply dark:text-black px-2;
+  }
+
+  .wysiwyg-toolbar img {
+    @apply dark:filter dark:invert-[0.6];
+  }
+
+  .wysiwyg-editor {
+    @apply bg-transparent cursor-text p-4;
+  }
+
+  .wysiwyg-editor [data-contents="true"] > * {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .wysiwyg-editor [data-contents="true"] > *:first-child {
+    margin-top: 0;
+  }
+
+  .wysiwyg-editor [data-contents="true"] > *:last-child {
+    margin-bottom: 0;
+  }
+
+  .wysiwyg-editor [data-contents="true"] > * > * {
+    margin: 0;
+  }
+}

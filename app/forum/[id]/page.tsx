@@ -1,21 +1,86 @@
-"use client";
-
-import { useContext } from "react";
+import { Suspense } from "react";
+import { Metadata } from "next";
 
 import CategoryList from "@/components/CategoryList";
+import SkeletonTopics from "@/components/SkeletonTopics";
 import Container from "@/components/Container";
 import PageTitle from "@/components/PageTitle";
-import { ForumContext } from "@/store/forums-context";
+import Topics from "@/components/Topics";
+import ActionBar from "./actions";
+import { prisma } from "@/lib/prisma";
+import getForum from "@/lib/getForum";
 
-const Forum = ({ params }: { params: { id: string } }) => {
+type Props = {
+  params: { id: string };
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  // read route params
+  const id = params.id;
+
+  // fetch data
+  const forumData: Promise<{ title: string; description: string | null }> =
+    getForum(id);
+  const forum = await forumData;
+
+  return {
+    title: forum.title,
+    description: forum.description,
+  };
+}
+
+export const dynamic = "force-dynamic";
+
+const Forum = async ({ params }: Props) => {
   const { id } = params;
-  const { forums } = useContext(ForumContext);
-  const relatedForums = forums.filter((forum) => id === forum.categoryId);
+  const data = await prisma.forum.findFirst({
+    where: {
+      id: parseInt(id),
+    },
+    include: {
+      subForums: {
+        include: {
+          _count: {
+            select: {
+              topics: true,
+            },
+          },
+        },
+      },
+      topics: {
+        orderBy: [{ pinned: "desc" }, { createdAt: "desc" }],
+        include: {
+          comments: true,
+        },
+      },
+    },
+  });
 
   return (
     <Container>
-      <PageTitle title="Current Forum" />
-      {/* <CategoryList category={}/> */}
+      <div className="mb-6">
+        <PageTitle>{data?.title}</PageTitle>
+        {data?.description && <p>{data?.description}</p>}
+      </div>
+      {!!data?.subForums.length && (
+        <CategoryList
+          id={id}
+          title="Subforums"
+          forums={data?.subForums}
+          titleAsLink={false}
+          className="mb-6"
+        />
+      )}
+      <ActionBar openForTopics={data?.allowNewTopics} />
+      <Suspense fallback={<SkeletonTopics />}>
+        {!!data?.topics.length ? (
+          <Topics topics={data?.topics} />
+        ) : (
+          <div className="flat h-64 flex items-center justify-center text-neutral-500 text-3xl">
+            No topics available
+          </div>
+        )}
+      </Suspense>
     </Container>
   );
 };

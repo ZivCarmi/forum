@@ -1,23 +1,23 @@
 import { Inter } from "next/font/google";
+import { getServerSession } from "next-auth";
 
 import Providers from "@/components/Providers";
-import Header from "@/components/Header";
+import { authOptions } from "./api/auth/[...nextauth]/route";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerSession(authOptions);
+
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} bg-neutral-300 dark:bg-neutral-800`}>
-        <Providers>
-          <Header />
-          <main className="p-4">{children}</main>
-        </Providers>
+      <body className={inter.className}>
+        <Providers session={session}>{children}</Providers>
       </body>
     </html>
   );
