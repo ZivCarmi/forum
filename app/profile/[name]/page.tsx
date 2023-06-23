@@ -11,6 +11,7 @@ const Profile = async ({ params }: { params: { name: string } }) => {
     },
     select: {
       createdAt: true,
+      role: true,
       comments: {
         where: {
           topicInitiator: {
@@ -97,23 +98,23 @@ const Profile = async ({ params }: { params: { name: string } }) => {
         <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
           {name}
         </h1>
-        <div className="mt-1">ROLE</div>
+        <div className="mt-1">{data?.role}</div>
       </div>
       <div className="flat px-10 py-3 flex gap-8">
         <div className="[&:not(:last-child)]:border-r border-neutral-300 dark:border-neutral-700 [&:not(:last-child)]:pr-8">
-          <span className="text-xs text-muted-foreground">TOPICS</span>
+          <span className="text-xs text-muted">TOPICS</span>
           <div className="text-sm font-medium leading-none mt-1">
             {data?._count.topics}
           </div>
         </div>
         <div className="[&:not(:last-child)]:border-r border-neutral-300 dark:border-neutral-700 [&:not(:last-child)]:pr-8">
-          <span className="text-xs text-muted-foreground">POSTS</span>
+          <span className="text-xs text-muted">POSTS</span>
           <div className="text-sm font-medium leading-none mt-1">
             {data?._count.comments}
           </div>
         </div>
         <div className="[&:not(:last-child)]:border-r border-neutral-300 dark:border-neutral-700 [&:not(:last-child)]:pr-8">
-          <span className="text-xs text-muted-foreground">JOINED</span>
+          <span className="text-xs text-muted">JOINED</span>
           <div className="text-sm font-medium leading-none mt-1">
             {month + " "}
             {data?.createdAt.getDay() + ", "}

@@ -8,6 +8,7 @@ import { useMemo } from "react";
 
 import Date from "@/components/Date";
 import { Button } from "@/components/ui/Button";
+import FeedFallback from "./feed-fallback";
 
 type FeedComment = {
   id: number;
@@ -81,17 +82,22 @@ const ProfileFeed = ({ data }: { data: FeedData }) => {
   );
 
   return (
-    <ul>
-      {sortedFeed.map((item) => (
-        <li
-          key={item.type + item.id}
-          className="flex gap-4 [&:not(:last-child)]:border-b border-neutral-300 dark:border-neutral-700 p-4"
-        >
-          {item.type === "comment" && <Comment {...item} />}
-          {item.type === "topic" && <Topic {...item} />}
-        </li>
-      ))}
-    </ul>
+    <>
+      {!!sortedFeed.length && (
+        <ul>
+          {sortedFeed.map((item) => (
+            <li
+              key={item.type + item.id}
+              className="flex gap-4 [&:not(:last-child)]:border-b border-neutral-300 dark:border-neutral-700 p-4"
+            >
+              {item.type === "comment" && <Comment {...item} />}
+              {item.type === "topic" && <Topic {...item} />}
+            </li>
+          ))}
+        </ul>
+      )}
+      {!!!sortedFeed.length && <FeedFallback />}
+    </>
   );
 };
 
@@ -128,7 +134,7 @@ const Comment: React.FC<SortedFeedComment> = (props) => {
           }}
           className="text-sm my-4 text-muted-foreground"
         />
-        <div className="flex gap-6 text-sm text-neutral-600 dark:text-neutral-400">
+        <div className="flex gap-6 text-sm text-muted">
           <Date date={props.createdAt} />
           {props.topic._count.comments} replies
         </div>
@@ -163,7 +169,7 @@ const Topic: React.FC<SortedFeedTopic> = (props) => {
           }}
           className="text-sm my-4 text-muted-foreground"
         />
-        <div className="flex gap-6 text-sm text-neutral-600 dark:text-neutral-400">
+        <div className="flex gap-6 text-sm text-muted">
           <Date date={props.createdAt} />
           {props._count.comments} replies
         </div>

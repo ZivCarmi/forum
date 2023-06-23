@@ -14,6 +14,8 @@ export interface ForumsWithStats extends Forum {
 }
 
 const Forums = ({ forums }: { forums: ForumsWithStats[] | undefined }) => {
+  console.log(forums);
+
   return (
     <motion.ul
       initial={{ opacity: 0 }}

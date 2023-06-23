@@ -5,6 +5,16 @@ const prisma = new PrismaClient();
 
 async function main() {
   const password = await hash("1234", 12);
+  const ziv = await prisma.user.upsert({
+    where: { email: "ziv@admin.com" },
+    update: {},
+    create: {
+      email: "ziv@admin.com",
+      password: password,
+      displayName: "Ziv",
+      role: "ADMIN",
+    },
+  });
   const alice = await prisma.user.upsert({
     where: { email: "alice@prisma.io" },
     update: {},
@@ -199,7 +209,7 @@ async function main() {
     },
   });
 
-  console.log({ alice, bob, category1, category2 });
+  console.log({ ziv, alice, bob, category1, category2 });
 }
 
 main()

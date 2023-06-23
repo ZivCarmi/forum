@@ -14,8 +14,8 @@ const Register = async () => {
   }
 
   return (
-    <Container className="h-screen flex items-center justify-center bg-white sm:bg-neutral-200 dark:bg-neutral-900">
-      <div className="sm:shadow-xl sm:bg-white sm:dark:bg-neutral-950 w-full sm:w-auto rounded px-8 py-12 ">
+    <Container className="h-screen flex items-center justify-center">
+      <div className="sm:shadow-xl sm:bg-white sm:dark:bg-background w-full sm:w-auto rounded px-8 py-12 ">
         <h1 className="font-semibold text-2xl mb-10">Create an account</h1>
         <RegisterForm />
         <p className="text-center mt-6">

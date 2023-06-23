@@ -34,6 +34,12 @@ const Category = async ({ params }: { params: { id: string } }) => {
     include: {
       forums: {
         include: {
+          subForums: {
+            select: {
+              id: true,
+              title: true,
+            },
+          },
           _count: {
             select: {
               topics: true,

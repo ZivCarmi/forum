@@ -40,6 +40,7 @@ const Forum = async ({ params }: Props) => {
     include: {
       subForums: {
         include: {
+          subForums: true,
           _count: {
             select: {
               topics: true,

@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import NewCommentForm from "./create-form";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import Link from "next/link";
+import { Button } from "@/components/ui/Button";
 
 const NewComment = async ({
   topicId,
@@ -23,11 +24,13 @@ const NewComment = async ({
       ) : (
         <div>
           In order to post a comment, please{" "}
-          <Link
-            href={`/login?callbackUrl=${process.env.NEXT_PUBLIC_URL}/topic/${topicId}`}
-          >
-            login
-          </Link>
+          <Button variant="link" asChild className="p-0">
+            <Link
+              href={`/login?callbackUrl=${process.env.NEXT_PUBLIC_URL}/topic/${topicId}`}
+            >
+              login
+            </Link>
+          </Button>
         </div>
       )}
     </div>

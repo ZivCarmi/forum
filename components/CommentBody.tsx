@@ -26,7 +26,7 @@ const CommentBody = ({
 
   return (
     <div className="grow py-7">
-      <Date prefix="Posted" date={createdAt} className="mb-5" />
+      <Date prefix="Posted" date={createdAt} className="mb-5 text-xs" />
       {!isEditMode && (
         <>
           <div
@@ -37,7 +37,9 @@ const CommentBody = ({
             {session?.user?.id === comment.user.id.toString() && (
               <button onClick={editHandler}>Edit</button>
             )}
-            {isEdited && <Date prefix="Last Edited" date={updatedAt} />}
+            {isEdited && (
+              <Date prefix="Last Edited" className="text-xs" date={updatedAt} />
+            )}
           </div>
         </>
       )}

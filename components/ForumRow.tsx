@@ -12,6 +12,8 @@ const ForumRow: React.FC<{ forum: ForumsWithStats }> = ({ forum }) => {
       ? "topic"
       : "No topics";
 
+  console.log(forum);
+
   return (
     <li className="p-4 border-t border-neutral-200 dark:border-neutral-800 grid grid-cols-[auto_minmax(auto,_1fr)_minmax(auto,_100px)_minmax(auto,_300px)] gap-6">
       <div className="py-2">

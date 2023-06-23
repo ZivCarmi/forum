@@ -83,7 +83,7 @@ export default async function Home() {
                   >
                     {topic.title}
                   </Link>
-                  <div className="text-neutral-600 dark:text-neutral-400 text-xs">
+                  <div className="text-muted text-xs">
                     <Link href={`/profile/${topic.author.displayName}`}>
                       {topic.author.displayName}
                     </Link>{" "}
@@ -118,7 +118,7 @@ export default async function Home() {
                   >
                     {comment.topic.title}
                   </Link>
-                  <div className="text-neutral-600 dark:text-neutral-400 text-xs">
+                  <div className="text-muted text-xs">
                     By{" "}
                     <Link href={`/profile/${comment.user.displayName}`}>
                       {comment.user.displayName}
@@ -136,7 +136,7 @@ export default async function Home() {
                   </div>
                   <Link
                     href={`/topic/${comment.topic.id}//#comment-${comment.id}`}
-                    className="text-sm font-medium mt-2 block"
+                    className="text-sm text-muted-foreground mt-2 block"
                     dangerouslySetInnerHTML={{
                       __html: sanitize(comment.content, { ALLOWED_TAGS: [] }),
                     }}
