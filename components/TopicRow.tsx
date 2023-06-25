@@ -2,12 +2,16 @@ import Link from "next/link";
 import { HiLockClosed } from "react-icons/hi";
 import { TbPinnedFilled } from "react-icons/tb";
 import { FaHotjar } from "react-icons/fa";
+import { getServerSession } from "next-auth";
 
 import type { TopicWithComments } from "./Topics";
 import Date from "./Date";
 import { prisma } from "@/lib/prisma";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import EditTopicDropdown from "./EditTopicDropdown";
 
 const TopicRow = async ({ topic }: { topic: TopicWithComments }) => {
+  const session = await getServerSession(authOptions);
   const { comments } = topic;
   const totalReplies = comments.length - 1;
   const replyStat = totalReplies > 0 && totalReplies;
@@ -52,11 +56,16 @@ const TopicRow = async ({ topic }: { topic: TopicWithComments }) => {
       <div className="self-center text-sm">
         {replyStat} {replyLabel}
       </div>
-      <div>
-        <Link href={`/profile/${lastCommentedUser?.id}`}>
-          {lastCommentedUser?.displayName}
-        </Link>
-        <Date date={lastComment?.createdAt} />
+      <div className="flex items-center justify-between gap-4">
+        <div className="text-sm">
+          <Link href={`/profile/${lastCommentedUser?.id}`}>
+            {lastCommentedUser?.displayName}
+          </Link>
+          <Date date={lastComment?.createdAt} />
+        </div>
+        {session?.user.role === "ADMIN" && (
+          <EditTopicDropdown id={topic.id} pinned={topic.pinned} />
+        )}
       </div>
     </li>
   );
