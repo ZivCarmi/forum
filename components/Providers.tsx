@@ -5,6 +5,7 @@ import { SessionProvider } from "next-auth/react";
 import { Session } from "next-auth";
 
 import LayoutProvider from "./Layout";
+import { Toaster } from "./ui/Toaster";
 
 const Providers = ({
   children,
@@ -17,6 +18,7 @@ const Providers = ({
     <SessionProvider session={session}>
       <ThemeProvider attribute="class">
         <LayoutProvider>{children}</LayoutProvider>
+        <Toaster />
       </ThemeProvider>
     </SessionProvider>
   );

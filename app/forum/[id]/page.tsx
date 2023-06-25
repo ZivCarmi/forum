@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { Metadata } from "next";
+import { MdEdit } from "react-icons/md";
 
 import CategoryList from "@/components/CategoryList";
 import SkeletonTopics from "@/components/SkeletonTopics";
@@ -9,6 +10,7 @@ import Topics from "@/components/Topics";
 import ActionBar from "./actions";
 import { prisma } from "@/lib/prisma";
 import getForum from "@/lib/getForum";
+import Description from "./forum-description";
 
 type Props = {
   params: { id: string };
@@ -61,7 +63,7 @@ const Forum = async ({ params }: Props) => {
     <Container>
       <div className="mb-6">
         <PageTitle>{data?.title}</PageTitle>
-        {data?.description && <p>{data?.description}</p>}
+        {data?.description && <Description content={data.description} />}
       </div>
       {!!data?.subForums.length && (
         <CategoryList
