@@ -56,7 +56,6 @@ model Topic {
   authorId    Int
   forum       Forum     @relation(fields: [forumId], references: [id])
   forumId     Int
-  // firstComment Comment? @relation("FirstComment")
   comments    Comment[] @relation("Comments")
   followers   User[]    @relation("FollowedTopics")
   pinned      Boolean   @default(false)
@@ -67,14 +66,13 @@ model Topic {
 }
 
 model Comment {
-  id        Int      @id @default(autoincrement())
-  content   String   @db.Text
-  user      User     @relation(fields: [userId], references: [id])
-  userId    Int
-  topicInitiator Boolean @default(false)
-  // relatedTopicId Int @unique
-  topic     Topic    @relation("Comments", fields: [topicId], references: [id])
-  topicId   Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id             Int      @id @default(autoincrement())
+  content        String   @db.Text
+  user           User     @relation(fields: [userId], references: [id])
+  userId         Int
+  topicInitiator Boolean  @default(false)
+  topic          Topic    @relation("Comments", fields: [topicId], references: [id], onDelete: Cascade)
+  topicId        Int
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }

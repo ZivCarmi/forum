@@ -57,6 +57,7 @@ export async function POST(request: NextRequest) {
         comments: {
           create: {
             userId: parsedUserId,
+            topicInitiator: true,
             content: sanitize(message.trim()),
           },
         },

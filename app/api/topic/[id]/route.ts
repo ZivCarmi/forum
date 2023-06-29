@@ -42,11 +42,35 @@ export async function PATCH(req: Request, context: { params: Props }) {
       updateData[key] = payload[key];
     }
 
-    const res = await prisma.topic.update({
+    await prisma.topic.update({
       where: {
         id: parseInt(id),
       },
       data: updateData,
+    });
+
+    return NextResponse.json({
+      success: true,
+    });
+  } catch (error: any) {
+    console.log(error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
+
+export async function DELETE(req: Request, context: { params: Props }) {
+  try {
+    const session = await getServerSession(authOptions);
+    const { id } = context.params;
+
+    if (session?.user.role !== "ADMIN") {
+      return NextResponse.json({ error: "Not an admin!" }, { status: 401 });
+    }
+
+    await prisma.topic.delete({
+      where: {
+        id: parseInt(id),
+      },
     });
 
     return NextResponse.json({

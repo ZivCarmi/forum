@@ -64,7 +64,12 @@ const TopicRow = async ({ topic }: { topic: TopicWithComments }) => {
           <Date date={lastComment?.createdAt} />
         </div>
         {session?.user.role === "ADMIN" && (
-          <EditTopicDropdown id={topic.id} pinned={topic.pinned} />
+          <EditTopicDropdown
+            id={topic.id}
+            forumId={topic.forumId}
+            active={topic.active}
+            pinned={topic.pinned}
+          />
         )}
       </div>
     </li>
